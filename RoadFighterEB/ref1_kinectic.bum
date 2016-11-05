@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.machineFile org.eventb.core.configuration="org.eventb.core.fwd;org.eventb.codegen.ui.cgConfig" org.eventb.texttools.text_lastmodified="1384185819823" org.eventb.texttools.text_representation="machine ref1_kinectic refines ref0_circuit  sees ctx_0&#10;&#10;variables objects obstacles cars lanes finish_line left_border right_border posX posY width height drift&#10;&#9;&#9;obj_desc&#10;&#9;&#9;vel acc maxvel friction finished active collision&#10;&#10;invariants&#10;  //&#10;  @invr1_0 drift ∈ cars → {−1, 0, 1} // drift to the left (none) right&#10;  @invr1_1 vel ∈ cars → ℕ // current velocity of an object&#10;  @invr1_2 acc ∈ cars → ℤ // current accelaration of an object&#10;  @invr1_3 maxvel ∈ cars → ℕ // max velocity allowed for a car&#10;  //&#10;  @invr1_4 friction ∈ lanes → ℕ // coeficient of friction of a lane&#10;  @invr1_5 finished ∈ cars → BOOL // did the car pass the finish line?&#10;  @invr1_6 active ∈ (obstacles ∪ cars) → BOOL // whether the object is active or not&#10;  @invr1_7 collision ∈ cars → BOOL&#10;&#10;events&#10;  event INITIALISATION extends INITIALISATION&#10;    then&#10;      @initr1_0 drift ≔ ∅&#10;      @initr1_1 vel ≔ ∅&#10;      @initr1_2 acc ≔ ∅&#10;      @initr1_3 maxvel ≔ ∅&#10;      @initr1_4 friction ≔ ∅&#10;      @initr1_5 finished ≔  ∅&#10;      @initr1_6 active ≔ ∅&#10;      @initr1_7 collision ≔ ∅&#10;  end&#10;&#10;  event SET_LEFT_BORDER extends SET_LEFT_BORDER end&#10;  event SET_RIGHT_BORDER extends SET_RIGHT_BORDER end&#10;  event DELETE_LANE extends DELETE_LANE end&#10;  event SET_FINISH_LINE extends SET_FINISH_LINE end&#10;  event SET_POS extends SET_POS end&#10;  event ADD_OBJECT extends ADD_OBJECT end&#10;&#10;  event ADD_LANE extends ADD_LANE&#10;  any F&#10;  where @guardr1_1 F ∈ ℕ&#10;  then&#10;    @actr1_1 friction ≔  friction ∪ {Lane ↦ F}&#10;  end&#10;&#10;  event FINISHED_LANE&#10;    any Car Lane&#10;    where&#10;      @guard1 Car ∈ cars&#10;      @guard2 Lane ∈ lanes&#10;    then&#10;      @act1 finished(Car) ≔ bool( posY(Car) &gt; finish_line(Lane))&#10;  end&#10;&#10;  event ADD_CAR extends ADD_CAR&#10;    any M F&#10;    where&#10;      @guardr1_1 M ∈ ℕ ∧ F ∈ ℕ&#10;    then&#10;      @actr1_0 drift ≔ drift ∪ {Car↦0}&#10;      @actr1_1 vel ≔ vel ∪ {Car↦0}&#10;      @actr1_2 acc ≔ acc ∪ {Car↦0}&#10;      @actr1_3 maxvel ≔ maxvel ∪ {Car↦M}&#10;      @actr1_4 finished ≔ finished ∪ {Car↦FALSE}&#10;      @actr1_5 active(Car) ≔ TRUE&#10;      @actr1_6 collision(Car) ≔ FALSE&#10;  end&#10;&#10;  event DELETE_CAR extends DELETE_CAR&#10;    then&#10;      @actr1_0 drift ≔ {Car} ⩤ drift&#10;      @actr1_1 vel ≔ {Car} ⩤ vel&#10;      @actr1_2 acc ≔ {Car} ⩤ acc&#10;      @actr1_3 maxvel ≔ {Car} ⩤ maxvel&#10;      @actr1_4 finished ≔ {Car} ⩤ finished&#10;      @actr1_5 active ≔ {Car} ⩤ active&#10;      @actr1_6 collision ≔ {Car} ⩤ collision&#10;  end&#10;&#10;  event SET_DRIFT&#10;  any Car D&#10;  &#9;where&#9;@guardr1_1 Car ∈ cars&#10;  &#9;&#9;&#9;@guardr1_2 D ∈ {0,−1,1}&#10;  then&#10;   &#9;@actr1_1 drift(Car) ≔ D&#10;  end&#10;&#10;  event ADD_OBSTACLE extends ADD_OBSTACLE&#10;    then&#10;      @actr1_1 active(Obs) ≔ TRUE&#10;  end&#10;&#10;  event DELETE_OBSTACLE extends DELETE_OBSTACLE&#10;    then&#10;      @actr1_1 active ≔ {Obs} ⩤ active&#10;  end&#10;&#10;  event SET_VEL&#10;    any Car V&#10;    where&#10;      @guardr1_1 Car ∈ cars&#10;      @guardr1_2 V ∈ ℕ ∧ V ≤ maxvel(Car)&#10;    then&#10;      @actr1_1 vel(Car) ≔ V&#10;  end&#10;&#10;  event SET_ACC&#10;    any Car A&#10;    where&#10;      @guardr1_1 Car ∈ cars&#10;      @guardr1_2 A ∈ ℕ&#10;    then&#10;      @actr1_1 acc(Car) ≔ A&#10;  end&#10;&#10;  event SET_MAXVEL&#10;    any Car M&#10;    where&#10;      @guardr1_1 Car ∈ cars&#10;      @guardr1_2 M ∈ ℕ ∧ M ≥ vel(Car)&#10;    then&#10;      @actr1_1 maxvel(Car) ≔ M&#10;  end&#10;&#10;  event UPDATE_VEL&#10;    any Car Elapsed&#10;    where&#10;      @guardr1_1 Car ∈ cars&#10;      @guardr1_2 Elapsed ∈ ℕ&#10;      @guardr1_3 vel(Car) + acc(Car) + Elapsed ÷ 1000 ≥ 0&#10;    then&#10;      @actr1_1 vel(Car) ≔ vel(Car) + acc(Car) + Elapsed ÷ 1000&#10;  end&#10;&#10;  event SET_ZERO_VEL&#10;    any Car&#10;    where&#10;      @guardr1_1 Car ∈ cars&#10;      @guardr1_2 vel(Car) &lt; 0&#10;    then&#10;      @actr1_1 vel(Car) ≔ 0&#10;  end&#10;&#10;  event APPLY_FRICTION&#10;    any Obj Elapsed Lane&#10;    where&#10;      @guardr1_1 Obj ∈ cars&#10;      @guardr1_2 Elapsed ∈ ℕ&#10;      @guardr1_3 Lane ∈ lanes&#10;      @guardr1_4 acc(Obj) = 0&#10;      @guardr1_5 vel(Obj) − friction(Lane) ∗ 5 ∗ Elapsed ≥ 0&#10;    then&#10;      @actr1_1 vel(Obj) ≔ vel(Obj) − friction(Lane) ∗ 5 ∗ Elapsed&#10;  end&#10;&#10;  event CAR_RESET extends CAR_RESET&#10;  then&#10;      @actr1_1 drift(Car) ≔ 0&#10;      @actr1_2 vel(Car) ≔ 0&#10;      @actr1_3 acc(Car) ≔ 0&#10;      @actr1_4 collision(Car) ≔ FALSE&#10;  end&#10;&#10;  event WALL_COLLISION&#10;    any Car Lane&#10;    where&#10;      @guardr1_1 Car ∈ cars&#10;      @guardr1_2 Lane ∈ lanes&#10;    then&#10;      @actr1_1 collision(Car) ≔ bool(¬( left_border(Lane) ≤ (posX(Car) − width(Car) ÷ 2) ∧ right_border(Lane) ≥ (posX(Car) + width(Car) ÷ 2)))&#10;  end&#10;&#10;  event OBJECT_COLLISION&#10;    any MyCar Obj&#10;    where&#10;      @guardr1_1 Obj ∈ (obstacles ∪ cars)&#10;      @guardr1_2 MyCar ∈ cars&#10;    then&#10;      @actr1_1 collision(MyCar) ≔ bool( (posX(Obj) − posX(MyCar) &lt; width(Obj)÷2 + width(MyCar)÷2) ∧ (posY(Obj) − posY(MyCar) &lt; height(Obj)÷2 + height(MyCar)÷2) )&#10;      @actr1_2 active(Obj) ≔ bool( ¬(posX(Obj) − posX(MyCar) &lt; width(Obj)÷2 + width(MyCar)÷2) ∧ (posY(Obj) − posY(MyCar) &lt; height(Obj)÷2 + height(MyCar)÷2) )&#10;  end&#10;&#10;  event UPDATE_POS refines UPDATE_POS&#10;  &#9;any  Obj Elapsed&#10;    where&#10;    &#9;@guardr1_1 Elapsed ∈ ℕ&#10;&#9;&#9;@guardr1_2 Obj ∈ cars&#10;    then&#10;      @actr1_1 posX(Obj) ≔ posX(Obj) + drift(Obj) ∗ Elapsed ∗ 50 ÷ 1000&#10;      @actr1_2 posY(Obj) ≔ posY(Obj) + vel(Obj) ∗ Elapsed  ÷ 1000&#10;  end&#10;&#10;end&#10;" version="5">
+<org.eventb.core.refinesMachine name="'" org.eventb.core.target="ref0_circuit"/>
+<org.eventb.core.seesContext name="_JOagEEijEeO2IOyripq7pQ" org.eventb.core.target="ctx_0"/>
+<org.eventb.core.variable name="_Mu5e0EbjEeOOI8hMiBvpag" org.eventb.core.identifier="objects"/>
+<org.eventb.core.variable name="_Mu5e0UbjEeOOI8hMiBvpag" org.eventb.core.identifier="obstacles"/>
+<org.eventb.core.variable name="_RLaJkEbnEeOOI8hMiBvpag" org.eventb.core.identifier="cars"/>
+<org.eventb.core.event name="_RLaJkEbnEeOOI8hMiBvpah" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="INITIALISATION">
+<org.eventb.core.action name="_3bndcEoOEeO2IOyripq7pQ" org.eventb.core.assignment="drift ≔ ∅" org.eventb.core.label="initr1_0"/>
+<org.eventb.core.action name="_LTDc0UbsEeO9u8H4T-Ug7g" org.eventb.core.assignment="vel ≔ ∅" org.eventb.core.label="initr1_1"/>
+<org.eventb.core.action name="_LTED4EbsEeO9u8H4T-Ug7g" org.eventb.core.assignment="acc ≔ ∅" org.eventb.core.label="initr1_2"/>
+<org.eventb.core.action name="_F-q8oEbtEeO9u8H4T-Ug7g" org.eventb.core.assignment="maxvel ≔ ∅" org.eventb.core.label="initr1_3"/>
+<org.eventb.core.action name="_F-q8oUbtEeO9u8H4T-Ug7g" org.eventb.core.assignment="friction ≔ ∅" org.eventb.core.label="initr1_4"/>
+<org.eventb.core.action name="_F-q8okbtEeO9u8H4T-Ug7g" org.eventb.core.assignment="finished ≔  ∅" org.eventb.core.label="initr1_5"/>
+<org.eventb.core.action name="_F-rjsEbtEeO9u8H4T-Ug7g" org.eventb.core.assignment="active ≔ ∅" org.eventb.core.label="initr1_6"/>
+<org.eventb.core.action name="_T2XsQEbtEeO9u8H4T-Ug7g" org.eventb.core.assignment="collision ≔ ∅" org.eventb.core.label="initr1_7"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_dQBiUEilEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="SET_LEFT_BORDER">
+<org.eventb.core.refinesEvent name="_dQCJYEilEeO2IOyripq7pQ" org.eventb.core.target="SET_LEFT_BORDER"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_dQCJYUilEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="SET_RIGHT_BORDER">
+<org.eventb.core.refinesEvent name="_dQCJYkilEeO2IOyripq7pQ" org.eventb.core.target="SET_RIGHT_BORDER"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_o6wrIEilEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="DELETE_LANE">
+<org.eventb.core.refinesEvent name="_o6xSMEilEeO2IOyripq7pQ" org.eventb.core.target="DELETE_LANE"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_o6xSMUilEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="SET_FINISH_LINE">
+<org.eventb.core.refinesEvent name="_o6xSMkilEeO2IOyripq7pQ" org.eventb.core.target="SET_FINISH_LINE"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_IQGEYEioEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="SET_POS">
+<org.eventb.core.refinesEvent name="_wNHeIEoIEeO2IOyripq7pQ" org.eventb.core.target="SET_POS"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_t3Sn4EpYEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="ADD_OBJECT">
+<org.eventb.core.refinesEvent name="_t3Sn4UpYEeO2IOyripq7pQ" org.eventb.core.target="ADD_OBJECT"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_RLaJkEbnEeOOI8hMiBvpak" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="ADD_LANE">
+<org.eventb.core.refinesEvent name="_ctekAEinEeO2IOyripq7pQ" org.eventb.core.target="ADD_LANE"/>
+<org.eventb.core.parameter name="_2xJBkUikEeO2IOyripq7pQ" org.eventb.core.identifier="F"/>
+<org.eventb.core.guard name="_2g6-w0b4EeO9u8H4T-Ug7g" org.eventb.core.label="guardr1_1" org.eventb.core.predicate="F ∈ ℕ"/>
+<org.eventb.core.action name="_qxKTYEb1EeO9u8H4T-Ug7g" org.eventb.core.assignment="friction ≔  friction ∪ {Lane ↦ F}" org.eventb.core.label="actr1_1"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_KfDEYEoKEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="FINISHED_LANE">
+<org.eventb.core.parameter name="_KfDEYUoKEeO2IOyripq7pQ" org.eventb.core.identifier="Car"/>
+<org.eventb.core.parameter name="_KfDEYkoKEeO2IOyripq7pQ" org.eventb.core.identifier="Lane"/>
+<org.eventb.core.guard name="_KfDEY0oKEeO2IOyripq7pQ" org.eventb.core.label="guard1" org.eventb.core.predicate="Car ∈ cars"/>
+<org.eventb.core.guard name="_KfDEZEoKEeO2IOyripq7pQ" org.eventb.core.label="guard2" org.eventb.core.predicate="Lane ∈ lanes"/>
+<org.eventb.core.action name="_KfDEZUoKEeO2IOyripq7pQ" org.eventb.core.assignment="finished(Car) ≔ bool( posY(Car) &gt; finish_line(Lane))" org.eventb.core.label="act1"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_uetxAEinEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="ADD_CAR">
+<org.eventb.core.refinesEvent name="_uetxAUinEeO2IOyripq7pQ" org.eventb.core.target="ADD_CAR"/>
+<org.eventb.core.parameter name="__ZOxYkinEeO2IOyripq7pQ" org.eventb.core.identifier="M"/>
+<org.eventb.core.parameter name="__ZOxY0inEeO2IOyripq7pQ" org.eventb.core.identifier="F"/>
+<org.eventb.core.guard name="__ZOxZEinEeO2IOyripq7pQ" org.eventb.core.label="guardr1_1" org.eventb.core.predicate="M ∈ ℕ ∧ F ∈ ℕ"/>
+<org.eventb.core.action name="__ZPYdkinEeO2IOyripq7pQ" org.eventb.core.assignment="drift ≔ drift ∪ {Car↦0}" org.eventb.core.label="actr1_0"/>
+<org.eventb.core.action name="__ZPYcEinEeO2IOyripq7pQ" org.eventb.core.assignment="vel ≔ vel ∪ {Car↦0}" org.eventb.core.label="actr1_1"/>
+<org.eventb.core.action name="__ZPYcUinEeO2IOyripq7pQ" org.eventb.core.assignment="acc ≔ acc ∪ {Car↦0}" org.eventb.core.label="actr1_2"/>
+<org.eventb.core.action name="__ZPYckinEeO2IOyripq7pQ" org.eventb.core.assignment="maxvel ≔ maxvel ∪ {Car↦M}" org.eventb.core.label="actr1_3"/>
+<org.eventb.core.action name="__ZPYc0inEeO2IOyripq7pQ" org.eventb.core.assignment="finished ≔ finished ∪ {Car↦FALSE}" org.eventb.core.label="actr1_4"/>
+<org.eventb.core.action name="__ZPYdEinEeO2IOyripq7pQ" org.eventb.core.assignment="active(Car) ≔ TRUE" org.eventb.core.label="actr1_5"/>
+<org.eventb.core.action name="__ZPYdUinEeO2IOyripq7pQ" org.eventb.core.assignment="collision(Car) ≔ FALSE" org.eventb.core.label="actr1_6"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_uetxBEinEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="DELETE_CAR">
+<org.eventb.core.refinesEvent name="_uetxBUinEeO2IOyripq7pQ" org.eventb.core.target="DELETE_CAR"/>
+<org.eventb.core.action name="__ZQmkEinEeO2IOyripq7pQ" org.eventb.core.assignment="drift ≔ {Car} ⩤ drift" org.eventb.core.label="actr1_0"/>
+<org.eventb.core.action name="__ZQmk0inEeO2IOyripq7pQ" org.eventb.core.assignment="vel ≔ {Car} ⩤ vel" org.eventb.core.label="actr1_1"/>
+<org.eventb.core.action name="__ZQmkUinEeO2IOyripq7pQ" org.eventb.core.assignment="acc ≔ {Car} ⩤ acc" org.eventb.core.label="actr1_2"/>
+<org.eventb.core.action name="__ZQmkkinEeO2IOyripq7pQ" org.eventb.core.assignment="maxvel ≔ {Car} ⩤ maxvel" org.eventb.core.label="actr1_3"/>
+<org.eventb.core.action name="_r23A0EoOEeO2IOyripq7pQ" org.eventb.core.assignment="finished ≔ {Car} ⩤ finished" org.eventb.core.label="actr1_4"/>
+<org.eventb.core.action name="__ZP_hkinEeO2IOyripq7pQ" org.eventb.core.assignment="active ≔ {Car} ⩤ active" org.eventb.core.label="actr1_5"/>
+<org.eventb.core.action name="__ZP_h0inEeO2IOyripq7pQ" org.eventb.core.assignment="collision ≔ {Car} ⩤ collision" org.eventb.core.label="actr1_6"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_SIH04ErWEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="SET_DRIFT">
+<org.eventb.core.parameter name="_QdKScErXEeO2IOyripq7pQ" org.eventb.core.identifier="Car"/>
+<org.eventb.core.parameter name="_QdKScUrXEeO2IOyripq7pQ" org.eventb.core.identifier="D"/>
+<org.eventb.core.guard name="_QdKSckrXEeO2IOyripq7pQ" org.eventb.core.label="guardr1_1" org.eventb.core.predicate="Car ∈ cars"/>
+<org.eventb.core.guard name="_QdK5gErXEeO2IOyripq7pQ" org.eventb.core.label="guardr1_2" org.eventb.core.predicate="D ∈ {0,−1,1}"/>
+<org.eventb.core.action name="_SIH04krWEeO2IOyripq7pQ" org.eventb.core.assignment="drift(Car) ≔ D" org.eventb.core.label="actr1_1"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_uetxAkinEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="ADD_OBSTACLE">
+<org.eventb.core.refinesEvent name="_uetxA0inEeO2IOyripq7pQ" org.eventb.core.target="ADD_OBSTACLE"/>
+<org.eventb.core.action name="_FScAcUioEeO2IOyripq7pQ" org.eventb.core.assignment="active(Obs) ≔ TRUE" org.eventb.core.label="actr1_1"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_uetJ8EinEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="DELETE_OBSTACLE">
+<org.eventb.core.refinesEvent name="_uetJ8UinEeO2IOyripq7pQ" org.eventb.core.target="DELETE_OBSTACLE"/>
+<org.eventb.core.action name="_FSfDxEioEeO2IOyripq7pQ" org.eventb.core.assignment="active ≔ {Obs} ⩤ active" org.eventb.core.label="actr1_1"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_IQGrd0ioEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="SET_VEL">
+<org.eventb.core.parameter name="_IQGreEioEeO2IOyripq7pQ" org.eventb.core.identifier="Car"/>
+<org.eventb.core.parameter name="_IQHSgEioEeO2IOyripq7pQ" org.eventb.core.identifier="V"/>
+<org.eventb.core.guard name="_IQHSgUioEeO2IOyripq7pQ" org.eventb.core.label="guardr1_1" org.eventb.core.predicate="Car ∈ cars"/>
+<org.eventb.core.guard name="_IQHSgkioEeO2IOyripq7pQ" org.eventb.core.label="guardr1_2" org.eventb.core.predicate="V ∈ ℕ ∧ V ≤ maxvel(Car)"/>
+<org.eventb.core.action name="_IQHSg0ioEeO2IOyripq7pQ" org.eventb.core.assignment="vel(Car) ≔ V" org.eventb.core.label="actr1_1"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_LYSkYEioEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="SET_ACC">
+<org.eventb.core.parameter name="_LYSkYUioEeO2IOyripq7pQ" org.eventb.core.identifier="Car"/>
+<org.eventb.core.parameter name="_LYSkYkioEeO2IOyripq7pQ" org.eventb.core.identifier="A"/>
+<org.eventb.core.guard name="_LYSkY0ioEeO2IOyripq7pQ" org.eventb.core.label="guardr1_1" org.eventb.core.predicate="Car ∈ cars"/>
+<org.eventb.core.guard name="_LYTLcEioEeO2IOyripq7pQ" org.eventb.core.label="guardr1_2" org.eventb.core.predicate="A ∈ ℕ"/>
+<org.eventb.core.action name="_LYTLcUioEeO2IOyripq7pQ" org.eventb.core.assignment="acc(Car) ≔ A" org.eventb.core.label="actr1_1"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_LYTLckioEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="SET_MAXVEL">
+<org.eventb.core.parameter name="_LYTLc0ioEeO2IOyripq7pQ" org.eventb.core.identifier="Car"/>
+<org.eventb.core.parameter name="_LYTLdEioEeO2IOyripq7pQ" org.eventb.core.identifier="M"/>
+<org.eventb.core.guard name="_LYTLdUioEeO2IOyripq7pQ" org.eventb.core.label="guardr1_1" org.eventb.core.predicate="Car ∈ cars"/>
+<org.eventb.core.guard name="_LYTLdkioEeO2IOyripq7pQ" org.eventb.core.label="guardr1_2" org.eventb.core.predicate="M ∈ ℕ ∧ M ≥ vel(Car)"/>
+<org.eventb.core.action name="_LYTLd0ioEeO2IOyripq7pQ" org.eventb.core.assignment="maxvel(Car) ≔ M" org.eventb.core.label="actr1_1"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_NjyLk0ioEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="UPDATE_VEL">
+<org.eventb.core.parameter name="_NjyLlEioEeO2IOyripq7pQ" org.eventb.core.identifier="Car"/>
+<org.eventb.core.parameter name="_NjyLlUioEeO2IOyripq7pQ" org.eventb.core.identifier="Elapsed"/>
+<org.eventb.core.guard name="_NjyLlkioEeO2IOyripq7pQ" org.eventb.core.label="guardr1_1" org.eventb.core.predicate="Car ∈ cars"/>
+<org.eventb.core.guard name="_NjyLl0ioEeO2IOyripq7pQ" org.eventb.core.label="guardr1_2" org.eventb.core.predicate="Elapsed ∈ ℕ"/>
+<org.eventb.core.guard name="_NjyLmEioEeO2IOyripq7pQ" org.eventb.core.label="guardr1_3" org.eventb.core.predicate="vel(Car) + acc(Car) + Elapsed ÷ 1000 ≥ 0"/>
+<org.eventb.core.action name="_1VcsAErbEeO2IOyripq7pQ" org.eventb.core.assignment="vel(Car) ≔ vel(Car) + acc(Car) + Elapsed ÷ 1000" org.eventb.core.label="actr1_1"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_IZxmoEreEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="SET_ZERO_VEL">
+<org.eventb.core.parameter name="_IZyNsEreEeO2IOyripq7pQ" org.eventb.core.identifier="Car"/>
+<org.eventb.core.guard name="_IZyNsUreEeO2IOyripq7pQ" org.eventb.core.label="guardr1_1" org.eventb.core.predicate="Car ∈ cars"/>
+<org.eventb.core.guard name="_IZyNskreEeO2IOyripq7pQ" org.eventb.core.label="guardr1_2" org.eventb.core.predicate="vel(Car) &lt; 0"/>
+<org.eventb.core.action name="_IZyNs0reEeO2IOyripq7pQ" org.eventb.core.assignment="vel(Car) ≔ 0" org.eventb.core.label="actr1_1"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_QpNrcEioEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="APPLY_FRICTION">
+<org.eventb.core.parameter name="_QpNrcUioEeO2IOyripq7pQ" org.eventb.core.identifier="Obj"/>
+<org.eventb.core.parameter name="_QpNrckioEeO2IOyripq7pQ" org.eventb.core.identifier="Elapsed"/>
+<org.eventb.core.parameter name="_cMJtsEipEeO2IOyripq7pQ" org.eventb.core.identifier="Lane"/>
+<org.eventb.core.guard name="_QpOSgEioEeO2IOyripq7pQ" org.eventb.core.label="guardr1_1" org.eventb.core.predicate="Obj ∈ cars"/>
+<org.eventb.core.guard name="_QpOSgUioEeO2IOyripq7pQ" org.eventb.core.label="guardr1_2" org.eventb.core.predicate="Elapsed ∈ ℕ"/>
+<org.eventb.core.guard name="_QpOSgkioEeO2IOyripq7pQ" org.eventb.core.label="guardr1_3" org.eventb.core.predicate="Lane ∈ lanes"/>
+<org.eventb.core.guard name="_QpOSg0ioEeO2IOyripq7pQ" org.eventb.core.label="guardr1_4" org.eventb.core.predicate="acc(Obj) = 0"/>
+<org.eventb.core.guard name="_nitkwElCEeO2IOyripq7pQ" org.eventb.core.label="guardr1_5" org.eventb.core.predicate="vel(Obj) − friction(Lane) ∗ 5 ∗ Elapsed ≥ 0"/>
+<org.eventb.core.action name="_QpOShEioEeO2IOyripq7pQ" org.eventb.core.assignment="vel(Obj) ≔ vel(Obj) − friction(Lane) ∗ 5 ∗ Elapsed" org.eventb.core.label="actr1_1"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_gGiRpElDEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="CAR_RESET">
+<org.eventb.core.refinesEvent name="_v6OTIEoPEeO2IOyripq7pQ" org.eventb.core.target="CAR_RESET"/>
+<org.eventb.core.action name="_gGi4sklDEeO2IOyripq7pQ" org.eventb.core.assignment="drift(Car) ≔ 0" org.eventb.core.label="actr1_1"/>
+<org.eventb.core.action name="_gGiRqElDEeO2IOyripq7pQ" org.eventb.core.assignment="vel(Car) ≔ 0" org.eventb.core.label="actr1_2"/>
+<org.eventb.core.action name="_gGi4sElDEeO2IOyripq7pQ" org.eventb.core.assignment="acc(Car) ≔ 0" org.eventb.core.label="actr1_3"/>
+<org.eventb.core.action name="_gGi4sUlDEeO2IOyripq7pQ" org.eventb.core.assignment="collision(Car) ≔ FALSE" org.eventb.core.label="actr1_4"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_EgJdAEoKEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="WALL_COLLISION">
+<org.eventb.core.parameter name="_EgJdAUoKEeO2IOyripq7pQ" org.eventb.core.identifier="Car"/>
+<org.eventb.core.parameter name="_EgJdAkoKEeO2IOyripq7pQ" org.eventb.core.identifier="Lane"/>
+<org.eventb.core.guard name="_EgJdA0oKEeO2IOyripq7pQ" org.eventb.core.label="guardr1_1" org.eventb.core.predicate="Car ∈ cars"/>
+<org.eventb.core.guard name="_EgJdBEoKEeO2IOyripq7pQ" org.eventb.core.label="guardr1_2" org.eventb.core.predicate="Lane ∈ lanes"/>
+<org.eventb.core.action name="_EgJdBUoKEeO2IOyripq7pQ" org.eventb.core.assignment="collision(Car) ≔ bool(¬( left_border(Lane) ≤ (posX(Car) − width(Car) ÷ 2) ∧ right_border(Lane) ≥ (posX(Car) + width(Car) ÷ 2)))" org.eventb.core.label="actr1_1"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_IOunkEoKEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="OBJECT_COLLISION">
+<org.eventb.core.parameter name="_IOunkkoKEeO2IOyripq7pQ" org.eventb.core.identifier="MyCar"/>
+<org.eventb.core.parameter name="_IOunkUoKEeO2IOyripq7pQ" org.eventb.core.identifier="Obj"/>
+<org.eventb.core.guard name="_IOunk0oKEeO2IOyripq7pQ" org.eventb.core.label="guardr1_1" org.eventb.core.predicate="Obj ∈ (obstacles ∪ cars)"/>
+<org.eventb.core.guard name="_IOunlEoKEeO2IOyripq7pQ" org.eventb.core.label="guardr1_2" org.eventb.core.predicate="MyCar ∈ cars"/>
+<org.eventb.core.action name="_IOvOoEoKEeO2IOyripq7pQ" org.eventb.core.assignment="collision(MyCar) ≔ bool( (posX(Obj) − posX(MyCar) &lt; width(Obj)÷2 + width(MyCar)÷2) ∧ (posY(Obj) − posY(MyCar) &lt; height(Obj)÷2 + height(MyCar)÷2) )" org.eventb.core.label="actr1_1"/>
+<org.eventb.core.action name="_IOvOoUoKEeO2IOyripq7pQ" org.eventb.core.assignment="active(Obj) ≔ bool( ¬(posX(Obj) − posX(MyCar) &lt; width(Obj)÷2 + width(MyCar)÷2) ∧ (posY(Obj) − posY(MyCar) &lt; height(Obj)÷2 + height(MyCar)÷2) )" org.eventb.core.label="actr1_2"/>
+</org.eventb.core.event>
+<org.eventb.core.variable name="_oUBtMEijEeO2IOyripq7pQ" org.eventb.core.identifier="lanes"/>
+<org.eventb.core.variable name="_oUCUQEijEeO2IOyripq7pQ" org.eventb.core.identifier="finish_line"/>
+<org.eventb.core.variable name="_oUCUQUijEeO2IOyripq7pQ" org.eventb.core.identifier="left_border"/>
+<org.eventb.core.variable name="_oUCUQkijEeO2IOyripq7pQ" org.eventb.core.identifier="right_border"/>
+<org.eventb.core.variable name="_LTHuQEbsEeO9u8H4T-Ug7g" org.eventb.core.identifier="posX"/>
+<org.eventb.core.variable name="_LTIVUEbsEeO9u8H4T-Ug7g" org.eventb.core.identifier="posY"/>
+<org.eventb.core.invariant name="_r27SQEoOEeO2IOyripq7pQ" org.eventb.core.comment="drift to the left (none) right" org.eventb.core.label="invr1_0" org.eventb.core.predicate="drift ∈ cars → {−1, 0, 1}"/>
+<org.eventb.core.invariant name="_JjEjkUcFEeORo8xmTArLng" org.eventb.core.comment="current velocity of an object" org.eventb.core.label="invr1_1" org.eventb.core.predicate="vel ∈ cars → ℕ"/>
+<org.eventb.core.invariant name="_LTI8YEbsEeO9u8H4T-Ug7g" org.eventb.core.comment="current accelaration of an object" org.eventb.core.label="invr1_2" org.eventb.core.predicate="acc ∈ cars → ℤ"/>
+<org.eventb.core.variable name="_kXDs0EbsEeO9u8H4T-Ug7g" org.eventb.core.identifier="width"/>
+<org.eventb.core.variable name="_kXDs0UbsEeO9u8H4T-Ug7g" org.eventb.core.identifier="height"/>
+<org.eventb.core.invariant name="_kXDs0kbsEeO9u8H4T-Ug7g" org.eventb.core.comment="max velocity allowed for a car" org.eventb.core.label="invr1_3" org.eventb.core.predicate="maxvel ∈ cars → ℕ"/>
+<org.eventb.core.invariant name="_kXDs00bsEeO9u8H4T-Ug7g" org.eventb.core.comment="coeficient of friction of a lane" org.eventb.core.label="invr1_4" org.eventb.core.predicate="friction ∈ lanes → ℕ"/>
+<org.eventb.core.variable name="_FA-roEe5EeORo8xmTArLng" org.eventb.core.identifier="drift"/>
+<org.eventb.core.variable name="_heCMMEpYEeO2IOyripq7pQ" org.eventb.core.identifier="obj_desc"/>
+<org.eventb.core.variable name="_F-tY4EbtEeO9u8H4T-Ug7g" org.eventb.core.identifier="vel"/>
+<org.eventb.core.variable name="_F-tY4UbtEeO9u8H4T-Ug7g" org.eventb.core.identifier="acc"/>
+<org.eventb.core.invariant name="_F-tY4kbtEeO9u8H4T-Ug7g" org.eventb.core.comment="did the car pass the finish line?" org.eventb.core.label="invr1_5" org.eventb.core.predicate="finished ∈ cars → BOOL"/>
+<org.eventb.core.invariant name="_F-t_8EbtEeO9u8H4T-Ug7g" org.eventb.core.comment="whether the object is active or not" org.eventb.core.label="invr1_6" org.eventb.core.predicate="active ∈ (obstacles ∪ cars) → BOOL"/>
+<org.eventb.core.variable name="_T2aIgEbtEeO9u8H4T-Ug7g" org.eventb.core.identifier="maxvel"/>
+<org.eventb.core.invariant name="_T2aIgUbtEeO9u8H4T-Ug7g" org.eventb.core.label="invr1_7" org.eventb.core.predicate="collision ∈ cars → BOOL"/>
+<org.eventb.core.variable name="_2xMr8EikEeO2IOyripq7pQ" org.eventb.core.identifier="friction"/>
+<org.eventb.core.variable name="_Tqy60ErREeO2IOyripq7pQ" org.eventb.core.identifier="finished"/>
+<org.eventb.core.variable name="_cqUVoEfTEeORo8xmTArLng" org.eventb.core.identifier="active"/>
+<org.eventb.core.variable name="_tfiiIEfaEeORo8xmTArLng" org.eventb.core.identifier="collision"/>
+<org.eventb.core.event name="_NhEO0EpVEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="UPDATE_POS">
+<org.eventb.core.refinesEvent name="_NhEO0UpVEeO2IOyripq7pQ" org.eventb.core.target="UPDATE_POS"/>
+<org.eventb.core.parameter name="_NhEO0kpVEeO2IOyripq7pQ" org.eventb.core.identifier="Obj"/>
+<org.eventb.core.parameter name="_NhEO00pVEeO2IOyripq7pQ" org.eventb.core.identifier="Elapsed"/>
+<org.eventb.core.guard name="_NhEO1EpVEeO2IOyripq7pQ" org.eventb.core.label="guardr1_1" org.eventb.core.predicate="Elapsed ∈ ℕ"/>
+<org.eventb.core.guard name="_NhEO1UpVEeO2IOyripq7pQ" org.eventb.core.label="guardr1_2" org.eventb.core.predicate="Obj ∈ cars"/>
+<org.eventb.core.action name="_NhEO1kpVEeO2IOyripq7pQ" org.eventb.core.assignment="posX(Obj) ≔ posX(Obj) + drift(Obj) ∗ Elapsed ∗ 50 ÷ 1000" org.eventb.core.label="actr1_1"/>
+<org.eventb.core.action name="_NhE14EpVEeO2IOyripq7pQ" org.eventb.core.assignment="posY(Obj) ≔ posY(Obj) + vel(Obj) ∗ Elapsed  ÷ 1000" org.eventb.core.label="actr1_2"/>
+</org.eventb.core.event>
+</org.eventb.core.machineFile>

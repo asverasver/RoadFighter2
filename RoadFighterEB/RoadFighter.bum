@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.machineFile org.eventb.core.configuration="org.eventb.core.fwd;org.eventb.codegen.ui.cgConfig" org.eventb.texttools.text_lastmodified="1384180419465" org.eventb.texttools.text_representation="machine RoadFighter refines ref2_scoring  sees ctx_0&#10;&#10;variables objects obstacles cars lanes finish_line left_border right_border posX posY width height drift vel acc maxvel friction finished active collision obj_desc score&#10;&#10;events&#10;  event INITIALISATION extends INITIALISATION&#10;  end&#10;&#10;  event SET_LEFT_BORDER extends SET_LEFT_BORDER&#10;  end&#10;&#10;  event SET_RIGHT_BORDER extends SET_RIGHT_BORDER&#10;  end&#10;&#10;  event DELETE_LANE extends DELETE_LANE&#10;  end&#10;&#10;  event SET_ZERO_VEL extends SET_ZERO_VEL&#10;  end&#10;&#10;  event SET_FINISH_LINE extends SET_FINISH_LINE&#10;  end&#10;&#10;  event SET_POS extends SET_POS&#10;  end&#10;&#10;  event ADD_LANE extends ADD_LANE&#10;  end&#10;&#10;  event ADD_OBJECT extends ADD_OBJECT&#10;  end&#10;&#10;  event ADD_CAR extends ADD_CAR&#10;  end&#10;&#10;  event DELETE_CAR extends DELETE_CAR&#10;  end&#10;&#10;  event ADD_OBSTACLE extends ADD_OBSTACLE&#10;  end&#10;&#10;  event DELETE_OBSTACLE extends DELETE_OBSTACLE&#10;  end&#10;&#10;  event SET_VEL extends SET_VEL&#10;  end&#10;&#10;  event SET_ACC extends SET_ACC&#10;  end&#10;&#10;  event SET_MAXVEL extends SET_MAXVEL&#10;  end&#10;&#10;  event UPDATE_VEL extends UPDATE_VEL&#10;  end&#10;&#10;  event APPLY_FRICTION extends APPLY_FRICTION&#10;  end&#10;&#10;  event CAR_RESET extends CAR_RESET&#10;  end&#10;&#10;  event WALL_COLLISION extends WALL_COLLISION&#10;  end&#10;&#10;  event OBJECT_COLLISION extends OBJECT_COLLISION&#10;  end&#10;&#10;  event FINISHED_LANE extends FINISHED_LANE&#10;  end&#10;&#10;  event UPDATE_POS extends UPDATE_POS&#10;  end&#10;&#10;  event UPDATE_SCORE extends UPDATE_SCORE&#10;  end&#10;&#10;  event SET_DRIFT extends SET_DRIFT&#10;  end&#10;end&#10;" version="5">
+<org.eventb.core.refinesMachine name="'" org.eventb.core.target="ref2_scoring"/>
+<org.eventb.core.seesContext name="_JOagEEijEeO2IOyripq7pQ" org.eventb.core.target="ctx_0"/>
+<org.eventb.core.variable name="_Mu5e0EbjEeOOI8hMiBvpag" org.eventb.core.identifier="objects"/>
+<org.eventb.core.variable name="_Mu5e0UbjEeOOI8hMiBvpag" org.eventb.core.identifier="obstacles"/>
+<org.eventb.core.variable name="_RLaJkEbnEeOOI8hMiBvpag" org.eventb.core.identifier="cars"/>
+<org.eventb.core.variable name="_oUBtMEijEeO2IOyripq7pQ" org.eventb.core.identifier="lanes"/>
+<org.eventb.core.variable name="_oUCUQEijEeO2IOyripq7pQ" org.eventb.core.identifier="finish_line"/>
+<org.eventb.core.variable name="_oUCUQUijEeO2IOyripq7pQ" org.eventb.core.identifier="left_border"/>
+<org.eventb.core.variable name="_oUCUQkijEeO2IOyripq7pQ" org.eventb.core.identifier="right_border"/>
+<org.eventb.core.variable name="_LTHuQEbsEeO9u8H4T-Ug7g" org.eventb.core.identifier="posX"/>
+<org.eventb.core.variable name="_LTIVUEbsEeO9u8H4T-Ug7g" org.eventb.core.identifier="posY"/>
+<org.eventb.core.variable name="_kXDs0EbsEeO9u8H4T-Ug7g" org.eventb.core.identifier="width"/>
+<org.eventb.core.variable name="_kXDs0UbsEeO9u8H4T-Ug7g" org.eventb.core.identifier="height"/>
+<org.eventb.core.variable name="_FA-roEe5EeORo8xmTArLng" org.eventb.core.identifier="drift"/>
+<org.eventb.core.variable name="_F-tY4EbtEeO9u8H4T-Ug7g" org.eventb.core.identifier="vel"/>
+<org.eventb.core.variable name="_F-tY4UbtEeO9u8H4T-Ug7g" org.eventb.core.identifier="acc"/>
+<org.eventb.core.variable name="_T2aIgEbtEeO9u8H4T-Ug7g" org.eventb.core.identifier="maxvel"/>
+<org.eventb.core.variable name="_2xMr8EikEeO2IOyripq7pQ" org.eventb.core.identifier="friction"/>
+<org.eventb.core.variable name="_NMrBIEb9EeO9u8H4T-Ug7g" org.eventb.core.identifier="finished"/>
+<org.eventb.core.variable name="_cqUVoEfTEeORo8xmTArLng" org.eventb.core.identifier="active"/>
+<org.eventb.core.variable name="_tfiiIEfaEeORo8xmTArLng" org.eventb.core.identifier="collision"/>
+<org.eventb.core.variable name="_3is9QEpYEeO2IOyripq7pQ" org.eventb.core.identifier="obj_desc"/>
+<org.eventb.core.variable name="_Tb5ZEEpWEeO2IOyripq7pQ" org.eventb.core.identifier="score"/>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLnh" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="INITIALISATION"/>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLni" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="SET_LEFT_BORDER">
+<org.eventb.core.refinesEvent name="_QfnsYEreEeO2IOyripq7pQ" org.eventb.core.target="SET_LEFT_BORDER"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLnj" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="SET_RIGHT_BORDER">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="SET_RIGHT_BORDER"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLnk" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="DELETE_LANE">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="DELETE_LANE"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLnl" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="SET_FINISH_LINE">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="SET_FINISH_LINE"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLnm" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="SET_POS">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="SET_POS"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLnn" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="ADD_LANE">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="ADD_LANE"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_3ivZgEpYEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="ADD_OBJECT">
+<org.eventb.core.refinesEvent name="_3ivZgUpYEeO2IOyripq7pQ" org.eventb.core.target="ADD_OBJECT"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLno" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="ADD_CAR">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="ADD_CAR"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLnp" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="DELETE_CAR">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="DELETE_CAR"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLnq" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="ADD_OBSTACLE">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="ADD_OBSTACLE"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLnr" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="DELETE_OBSTACLE">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="DELETE_OBSTACLE"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLns" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="SET_VEL">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="SET_VEL"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLnt" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="SET_ACC">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="SET_ACC"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLnu" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="SET_MAXVEL">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="SET_MAXVEL"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLnv" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="UPDATE_VEL">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="UPDATE_VEL"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLnw" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="APPLY_FRICTION">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="APPLY_FRICTION"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLnx" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="CAR_RESET">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="CAR_RESET"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLny" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="WALL_COLLISION">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="WALL_COLLISION"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLnz" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="OBJECT_COLLISION">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="OBJECT_COLLISION"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_wSgFoErSEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="FINISHED_LANE">
+<org.eventb.core.refinesEvent name="_wSgFoUrSEeO2IOyripq7pQ" org.eventb.core.target="FINISHED_LANE"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLn|" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="UPDATE_POS">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="UPDATE_POS"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tfiiIEfaEeORo8xmTArLn}" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="UPDATE_SCORE">
+<org.eventb.core.refinesEvent name="'" org.eventb.core.target="UPDATE_SCORE"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_aVrPsErXEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="SET_DRIFT">
+<org.eventb.core.refinesEvent name="_aVrPsUrXEeO2IOyripq7pQ" org.eventb.core.target="SET_DRIFT"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_QfqIoEreEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="true" org.eventb.core.label="SET_ZERO_VEL">
+<org.eventb.core.refinesEvent name="_QfqIoUreEeO2IOyripq7pQ" org.eventb.core.target="SET_ZERO_VEL"/>
+</org.eventb.core.event>
+</org.eventb.core.machineFile>

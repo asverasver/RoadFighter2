@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.poFile org.eventb.core.poStamp="0">
+<org.eventb.core.poPredicateSet name="ABSHYP" org.eventb.core.poStamp="0">
+<org.eventb.core.poIdentifier name="LANES" org.eventb.core.type="ℙ(LANES)"/>
+<org.eventb.core.poIdentifier name="OBJECTS" org.eventb.core.type="ℙ(OBJECTS)"/>
+<org.eventb.core.poIdentifier name="USER_CAR" org.eventb.core.type="ℤ"/>
+<org.eventb.core.poIdentifier name="USER_LANE" org.eventb.core.type="ℤ"/>
+</org.eventb.core.poPredicateSet>
+<org.eventb.core.poPredicateSet name="ALLHYP" org.eventb.core.parentSet="/RoadFighter/ctx_0.bpo|org.eventb.core.poFile#ctx_0|org.eventb.core.poPredicateSet#ABSHYP" org.eventb.core.poStamp="0">
+<org.eventb.core.poPredicate name="PRD0" org.eventb.core.predicate="USER_LANE∈ℤ" org.eventb.core.source="/RoadFighter/ctx_0.buc|org.eventb.core.contextFile#ctx_0|org.eventb.core.axiom#_Gzg78UlIEeO2IOyripq7pQ"/>
+<org.eventb.core.poPredicate name="PRD1" org.eventb.core.predicate="USER_CAR∈ℤ" org.eventb.core.source="/RoadFighter/ctx_0.buc|org.eventb.core.contextFile#ctx_0|org.eventb.core.axiom#_tSLusUpjEeO2IOyripq7pQ"/>
+</org.eventb.core.poPredicateSet>
+</org.eventb.core.poFile>

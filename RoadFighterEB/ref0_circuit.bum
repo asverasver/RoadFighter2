@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<org.eventb.core.machineFile org.eventb.core.configuration="org.eventb.core.fwd;org.eventb.codegen.ui.cgConfig" org.eventb.texttools.text_lastmodified="1389368572880" org.eventb.texttools.text_representation="machine ref0_circuit sees ctx_0&#10;&#10;variables objects obstacles cars lanes finish_line left_border right_border posX posY width height&#10;&#9;&#9;obj_desc&#10;&#10;invariants&#10;  @inv1 objects ⊆ OBJECTS // object of the track&#10;  @inv2 obstacles ⊆ objects // obstacles of the racing car track&#10;  @inv3 cars ⊆ objects&#10;  @inv4 cars ∩ obstacles = ∅&#10;  @inv5 lanes ⊆ LANES // number of lanes of the racing circuit&#10;  @inv6 finish_line ∈ lanes → ℤ // y's coordinate of the finish line of a lane&#10;  @inv7 left_border ∈ lanes → ℤ // x's coordinate of a lane&#10;  @inv8 right_border ∈ lanes → ℤ // y's coordinate of a lane&#10;  @inv9 posX ∈ objects → ℤ // x-position of an object&#10;  @inv10 posY ∈ objects → ℤ // y-position of an object&#10;  @inv11 width ∈ objects → ℕ // width of an object&#10;  @inv12 height ∈ objects → ℕ // height of an object&#10;  @inv13 obj_desc ∈ objects → ℕ // object description&#10;&#10;events&#10;  event INITIALISATION&#10;    then&#10;      @init1 objects ≔ ∅&#10;      @init2 obstacles ≔ ∅&#10;      @init3 cars ≔ ∅&#10;      @init4 lanes ≔ ∅&#10;      @init5 finish_line ≔ ∅&#10;      @init6 left_border ≔ ∅&#10;      @init7 right_border ≔ ∅&#10;      @init8 posX ≔ ∅&#10;      @init9 posY ≔ ∅&#10;      @init10 width ≔ ∅&#10;      @init11 height ≔ ∅&#10;      @init12 obj_desc ≔ ∅&#10;  end&#10;&#10;  event ADD_OBJECT&#10;    any Obj Desc W H X Y&#10;    where&#10;      @guard1 Obj ∈ OBJECTS∖objects ∧ Desc ∈ ℕ&#10;      @guard2 W ∈ ℕ ∧ H ∈ ℕ&#10;      @guard3 X ∈ ℤ ∧ Y ∈ ℤ&#10;    then&#10;      @act1 objects ≔ objects ∪ {Obj}&#10;      @act2 posX ≔ posX ∪ {Obj↦X}&#10;      @act3 posY ≔ posY ∪ {Obj↦Y}&#10;      @act4 width ≔ width ∪ {Obj↦W}&#10;      @act5 height ≔ height ∪ {Obj↦H}&#10;      @act6 obj_desc ≔ obj_desc ∪ {Obj↦Desc}&#10;  end&#10;&#10;  event ADD_CAR&#10;    any Car Desc W H X Y&#10;    where&#10;      @guard1 Car ∈ OBJECTS∖objects ∧ Desc ∈ ℕ&#10;      @guard2 W ∈ ℕ ∧ H ∈ ℕ&#10;      @guard3 X ∈ ℤ ∧ Y ∈ ℤ&#10;    then&#10;      @act1 cars ≔ cars ∪ {Car}&#10;      @act2 objects ≔ objects ∪ {Car}&#10;      @act3 posX ≔ posX ∪ {Car↦X}&#10;      @act4 posY ≔ posY ∪ {Car↦Y}&#10;      @act5 width ≔ width ∪ {Car↦W}&#10;      @act6 height ≔ height ∪ {Car↦H}&#10;      @act7 obj_desc ≔ obj_desc ∪ {Car↦Desc}&#10;  end&#10;&#10;  event DELETE_CAR&#10;    any Car&#10;    where&#10;      @guard1 Car ∈ cars&#10;    then&#10;      @act1 cars ≔ cars ∖ {Car}&#10;      @act2 objects ≔ objects ∖ {Car}&#10;      @act3 posX ≔ {Car} ⩤ posX&#10;      @act4 posY ≔ {Car} ⩤ posY&#10;      @act5 width ≔ {Car} ⩤ width&#10;      @act6 height ≔ {Car} ⩤ height&#10;      @act7 obj_desc ≔ {Car} ⩤ obj_desc&#10;  end&#10;&#10;  event ADD_OBSTACLE&#10;    any Obs Desc X Y W H&#10;    where&#10;      @guard1 Obs ∈ OBJECTS∖objects ∧ Desc ∈ ℕ&#10;      @guard2 X ∈ ℤ ∧ Y ∈ ℤ&#10;      @guard3 W ∈ ℕ ∧ H ∈ ℕ&#10;    then&#10;      @act1 obstacles ≔ obstacles ∪ {Obs}&#10;      @act2 objects ≔ objects ∪ {Obs}&#10;      @act3 posX ≔ posX ∪ {Obs↦X}&#10;      @act4 posY ≔ posY ∪ {Obs↦Y}&#10;      @act5 width ≔ width ∪ {Obs↦W}&#10;      @act6 height ≔ height ∪ {Obs↦H}&#10;      @act7 obj_desc ≔ obj_desc ∪ {Obs↦Desc}&#10;  end&#10;&#10;  event DELETE_OBSTACLE&#10;    any Obs&#10;    where&#10;      @guard1 Obs ∈ obstacles&#10;    then&#10;      @act1 obstacles ≔ obstacles ∖ {Obs}&#10;      @act2 objects ≔ objects ∖ {Obs}&#10;      @act3 posX ≔ {Obs} ⩤ posX&#10;      @act4 posY ≔ {Obs} ⩤ posY&#10;      @act5 width ≔ {Obs} ⩤ width&#10;      @act6 height ≔ {Obs} ⩤ height&#10;      @act7 obj_desc ≔ {Obs} ⩤   obj_desc&#10;  end&#10;&#10;  event SET_POS&#10;    any Obj X Y&#10;    where&#10;      @guard1 Obj ∈ objects&#10;      @guard2 X ∈ ℤ ∧ Y ∈ ℤ&#10;    then&#10;      @act1 posX(Obj) ≔ X&#10;      @act2 posY(Obj) ≔ Y&#10;  end&#10;&#10;  event ADD_LANE&#10;    any Lane Left Right Finish&#10;    where&#10;      @guard1 Lane ∈ LANES∖lanes&#10;      @guard2 Left ∈ ℤ ∧ Right ∈ ℤ ∧ Left &lt; Right&#10;      @guard3 Finish ∈ ℤ&#10;    then&#10;      @act1 lanes ≔ lanes ∪ {Lane}&#10;      @act2 finish_line ≔ finish_line ∪ {Lane ↦ Finish}&#10;      @act3 left_border ≔ left_border ∪ {Lane ↦ Left}&#10;      @act4 right_border ≔ right_border ∪ {Lane ↦ Right}&#10;  end&#10;&#10;  event DELETE_LANE&#10;    any Lane&#10;    where&#10;      @guard1 Lane ∈ LANES∖lanes&#10;    then&#10;      @act1 lanes ≔ lanes ∖ {Lane}&#10;      @act2 finish_line ≔ {Lane} ⩤ finish_line&#10;      @act3 left_border ≔ {Lane} ⩤ left_border&#10;      @act4 right_border ≔ {Lane} ⩤ right_border&#10;  end&#10;&#10;  event SET_FINISH_LINE&#10;    any Lane F&#10;    where&#10;      @guard1 Lane ∈ lanes&#10;      @guard2 F ∈ ℤ&#10;    then&#10;      @act1 finish_line(Lane) ≔ F&#10;  end&#10;&#10;  event SET_LEFT_BORDER&#10;    any Lane B&#10;    where&#10;      @guard1 Lane ∈ lanes&#10;      @guard2 B ∈ ℤ&#10;    then&#10;      @act1 left_border(Lane) ≔ B&#10;  end&#10;&#10;  event SET_RIGHT_BORDER&#10;    any Lane B&#10;    where&#10;      @guard1 Lane ∈ lanes&#10;      @guard2 B ∈ ℤ&#10;    then&#10;      @act1 right_border(Lane) ≔ B&#10;  end&#10;&#10;  event CAR_RESET&#10;    any Car Lane&#10;    where&#10;      @guard1 Car ∈ cars&#10;      @guard2 Lane ∈ lanes&#10;  then&#10;      @act1 posX(Car) ≔ (right_border(Lane) − left_border(Lane)) ÷ 2&#10;  end&#10;&#10;  event UPDATE_POS&#10;  then&#10;  &#9;@act1 posX :∈ objects → ℤ&#10;  &#9;@act2 posY :∈ objects → ℤ&#10;  end&#10;&#10;end&#10;" version="5">
+<org.eventb.core.seesContext name="_6lA9wEbhEeOOI8hMiBvpag" org.eventb.core.target="ctx_0"/>
+<org.eventb.core.event name="'" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="INITIALISATION">
+<org.eventb.core.action name="_RLZigEbnEeOOI8hMiBvpag" org.eventb.core.assignment="objects ≔ ∅" org.eventb.core.label="init1"/>
+<org.eventb.core.action name="_RLZigUbnEeOOI8hMiBvpag" org.eventb.core.assignment="obstacles ≔ ∅" org.eventb.core.label="init2"/>
+<org.eventb.core.action name="_telrUEbnEeOOI8hMiBvpag" org.eventb.core.assignment="cars ≔ ∅" org.eventb.core.label="init3"/>
+<org.eventb.core.action name="_cYHRoEifEeO2IOyripq7pQ" org.eventb.core.assignment="lanes ≔ ∅" org.eventb.core.label="init4"/>
+<org.eventb.core.action name="_cYHRoUifEeO2IOyripq7pQ" org.eventb.core.assignment="finish_line ≔ ∅" org.eventb.core.label="init5"/>
+<org.eventb.core.action name="_cYHRokifEeO2IOyripq7pQ" org.eventb.core.assignment="left_border ≔ ∅" org.eventb.core.label="init6"/>
+<org.eventb.core.action name="_cYHRo0ifEeO2IOyripq7pQ" org.eventb.core.assignment="right_border ≔ ∅" org.eventb.core.label="init7"/>
+<org.eventb.core.action name="_0Iz3oEoIEeO2IOyripq7pQ" org.eventb.core.assignment="posX ≔ ∅" org.eventb.core.label="init8"/>
+<org.eventb.core.action name="_0Iz3oUoIEeO2IOyripq7pQ" org.eventb.core.assignment="posY ≔ ∅" org.eventb.core.label="init9"/>
+<org.eventb.core.action name="_0Iz3okoIEeO2IOyripq7pQ" org.eventb.core.assignment="width ≔ ∅" org.eventb.core.label="init10"/>
+<org.eventb.core.action name="_0Iz3o0oIEeO2IOyripq7pQ" org.eventb.core.assignment="height ≔ ∅" org.eventb.core.label="init11"/>
+<org.eventb.core.action name="_w6RGIEpXEeO2IOyripq7pQ" org.eventb.core.assignment="obj_desc ≔ ∅" org.eventb.core.label="init12"/>
+</org.eventb.core.event>
+<org.eventb.core.variable name="_Mu5e0EbjEeOOI8hMiBvpag" org.eventb.core.identifier="objects"/>
+<org.eventb.core.variable name="_Mu5e0UbjEeOOI8hMiBvpag" org.eventb.core.identifier="obstacles"/>
+<org.eventb.core.invariant name="_Mu5e0kbjEeOOI8hMiBvpag" org.eventb.core.comment="object of the track" org.eventb.core.label="inv1" org.eventb.core.predicate="objects ⊆ OBJECTS"/>
+<org.eventb.core.invariant name="_Mu5e00bjEeOOI8hMiBvpag" org.eventb.core.comment="obstacles of the racing car track" org.eventb.core.label="inv2" org.eventb.core.predicate="obstacles ⊆ objects"/>
+<org.eventb.core.variable name="_RLaJkEbnEeOOI8hMiBvpag" org.eventb.core.identifier="cars"/>
+<org.eventb.core.invariant name="_RLaJkUbnEeOOI8hMiBvpag" org.eventb.core.label="inv3" org.eventb.core.predicate="cars ⊆ objects"/>
+<org.eventb.core.invariant name="_RLaJkkbnEeOOI8hMiBvpag" org.eventb.core.label="inv4" org.eventb.core.predicate="cars ∩ obstacles = ∅"/>
+<org.eventb.core.event name="_HvX1oEpYEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="ADD_OBJECT">
+<org.eventb.core.parameter name="_HvX1oUpYEeO2IOyripq7pQ" org.eventb.core.identifier="Obj"/>
+<org.eventb.core.parameter name="_HvX1okpYEeO2IOyripq7pQ" org.eventb.core.identifier="Desc"/>
+<org.eventb.core.parameter name="_HvX1o0pYEeO2IOyripq7pQ" org.eventb.core.identifier="W"/>
+<org.eventb.core.parameter name="_HvX1pEpYEeO2IOyripq7pQ" org.eventb.core.identifier="H"/>
+<org.eventb.core.parameter name="_2Mqm0XoNEeOgSc2-c1S6Jw" org.eventb.core.identifier="X"/>
+<org.eventb.core.parameter name="_2Mqm0noNEeOgSc2-c1S6Jw" org.eventb.core.identifier="Y"/>
+<org.eventb.core.guard name="_HvX1pUpYEeO2IOyripq7pQ" org.eventb.core.label="guard1" org.eventb.core.predicate="Obj ∈ OBJECTS∖objects ∧ Desc ∈ ℕ"/>
+<org.eventb.core.guard name="_HvX1pkpYEeO2IOyripq7pQ" org.eventb.core.label="guard2" org.eventb.core.predicate="W ∈ ℕ ∧ H ∈ ℕ"/>
+<org.eventb.core.guard name="_2MrN4HoNEeOgSc2-c1S6Jw" org.eventb.core.label="guard3" org.eventb.core.predicate="X ∈ ℤ ∧ Y ∈ ℤ"/>
+<org.eventb.core.action name="_HvX1p0pYEeO2IOyripq7pQ" org.eventb.core.assignment="objects ≔ objects ∪ {Obj}" org.eventb.core.label="act1"/>
+<org.eventb.core.action name="_HvYcsEpYEeO2IOyripq7pQ" org.eventb.core.assignment="posX ≔ posX ∪ {Obj↦X}" org.eventb.core.label="act2"/>
+<org.eventb.core.action name="_HvYcsUpYEeO2IOyripq7pQ" org.eventb.core.assignment="posY ≔ posY ∪ {Obj↦Y}" org.eventb.core.label="act3"/>
+<org.eventb.core.action name="_HvYcskpYEeO2IOyripq7pQ" org.eventb.core.assignment="width ≔ width ∪ {Obj↦W}" org.eventb.core.label="act4"/>
+<org.eventb.core.action name="_HvYcs0pYEeO2IOyripq7pQ" org.eventb.core.assignment="height ≔ height ∪ {Obj↦H}" org.eventb.core.label="act5"/>
+<org.eventb.core.action name="_HvYctEpYEeO2IOyripq7pQ" org.eventb.core.assignment="obj_desc ≔ obj_desc ∪ {Obj↦Desc}" org.eventb.core.label="act6"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_RLbXs0bnEeOOI8hMiBvpag" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="ADD_CAR">
+<org.eventb.core.parameter name="_RLbXtEbnEeOOI8hMiBvpag" org.eventb.core.identifier="Car"/>
+<org.eventb.core.parameter name="_rgwq0EpXEeO2IOyripq7pQ" org.eventb.core.identifier="Desc"/>
+<org.eventb.core.parameter name="_0I0esEoIEeO2IOyripq7pQ" org.eventb.core.identifier="W"/>
+<org.eventb.core.parameter name="_0I0esUoIEeO2IOyripq7pQ" org.eventb.core.identifier="H"/>
+<org.eventb.core.parameter name="_3r0FYHoNEeOgSc2-c1S6Jw" org.eventb.core.identifier="X"/>
+<org.eventb.core.parameter name="_3r0FYXoNEeOgSc2-c1S6Jw" org.eventb.core.identifier="Y"/>
+<org.eventb.core.guard name="_cYH4sEifEeO2IOyripq7pQ" org.eventb.core.label="guard1" org.eventb.core.predicate="Car ∈ OBJECTS∖objects ∧ Desc ∈ ℕ"/>
+<org.eventb.core.guard name="_0I0eskoIEeO2IOyripq7pQ" org.eventb.core.label="guard2" org.eventb.core.predicate="W ∈ ℕ ∧ H ∈ ℕ"/>
+<org.eventb.core.guard name="_2MuRMHoNEeOgSc2-c1S6Jw" org.eventb.core.label="guard3" org.eventb.core.predicate="X ∈ ℤ ∧ Y ∈ ℤ"/>
+<org.eventb.core.action name="_RLb-wEbnEeOOI8hMiBvpag" org.eventb.core.assignment="cars ≔ cars ∪ {Car}" org.eventb.core.label="act1"/>
+<org.eventb.core.action name="_Pz__0EbpEeOOI8hMiBvpag" org.eventb.core.assignment="objects ≔ objects ∪ {Car}" org.eventb.core.label="act2"/>
+<org.eventb.core.action name="_0I1FwEoIEeO2IOyripq7pQ" org.eventb.core.assignment="posX ≔ posX ∪ {Car↦X}" org.eventb.core.label="act3"/>
+<org.eventb.core.action name="_0I1FwUoIEeO2IOyripq7pQ" org.eventb.core.assignment="posY ≔ posY ∪ {Car↦Y}" org.eventb.core.label="act4"/>
+<org.eventb.core.action name="_0I1FwkoIEeO2IOyripq7pQ" org.eventb.core.assignment="width ≔ width ∪ {Car↦W}" org.eventb.core.label="act5"/>
+<org.eventb.core.action name="_0I1Fw0oIEeO2IOyripq7pQ" org.eventb.core.assignment="height ≔ height ∪ {Car↦H}" org.eventb.core.label="act6"/>
+<org.eventb.core.action name="_rgxR4EpXEeO2IOyripq7pQ" org.eventb.core.assignment="obj_desc ≔ obj_desc ∪ {Car↦Desc}" org.eventb.core.label="act7"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_RLb-wUbnEeOOI8hMiBvpag" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="DELETE_CAR">
+<org.eventb.core.parameter name="_RLb-wkbnEeOOI8hMiBvpag" org.eventb.core.identifier="Car"/>
+<org.eventb.core.guard name="_cYIfwEifEeO2IOyripq7pQ" org.eventb.core.label="guard1" org.eventb.core.predicate="Car ∈ cars"/>
+<org.eventb.core.action name="_RLb-xEbnEeOOI8hMiBvpag" org.eventb.core.assignment="cars ≔ cars ∖ {Car}" org.eventb.core.label="act1"/>
+<org.eventb.core.action name="_P0Am4EbpEeOOI8hMiBvpag" org.eventb.core.assignment="objects ≔ objects ∖ {Car}" org.eventb.core.label="act2"/>
+<org.eventb.core.action name="_0I1s0EoIEeO2IOyripq7pQ" org.eventb.core.assignment="posX ≔ {Car} ⩤ posX" org.eventb.core.label="act3"/>
+<org.eventb.core.action name="_0I1s0UoIEeO2IOyripq7pQ" org.eventb.core.assignment="posY ≔ {Car} ⩤ posY" org.eventb.core.label="act4"/>
+<org.eventb.core.action name="_0I1s0koIEeO2IOyripq7pQ" org.eventb.core.assignment="width ≔ {Car} ⩤ width" org.eventb.core.label="act5"/>
+<org.eventb.core.action name="_0I1s00oIEeO2IOyripq7pQ" org.eventb.core.assignment="height ≔ {Car} ⩤ height" org.eventb.core.label="act6"/>
+<org.eventb.core.action name="_rgx48EpXEeO2IOyripq7pQ" org.eventb.core.assignment="obj_desc ≔ {Car} ⩤ obj_desc" org.eventb.core.label="act7"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_tenggEbnEeOOI8hMiBvpag" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="ADD_OBSTACLE">
+<org.eventb.core.parameter name="_teoHkEbnEeOOI8hMiBvpag" org.eventb.core.identifier="Obs"/>
+<org.eventb.core.parameter name="_rgygAEpXEeO2IOyripq7pQ" org.eventb.core.identifier="Desc"/>
+<org.eventb.core.parameter name="_0I2T4EoIEeO2IOyripq7pQ" org.eventb.core.identifier="X"/>
+<org.eventb.core.parameter name="_0I2T4UoIEeO2IOyripq7pQ" org.eventb.core.identifier="Y"/>
+<org.eventb.core.parameter name="_0I2T4koIEeO2IOyripq7pQ" org.eventb.core.identifier="W"/>
+<org.eventb.core.parameter name="_0I2T40oIEeO2IOyripq7pQ" org.eventb.core.identifier="H"/>
+<org.eventb.core.guard name="_cYIfwUifEeO2IOyripq7pQ" org.eventb.core.label="guard1" org.eventb.core.predicate="Obs ∈ OBJECTS∖objects ∧ Desc ∈ ℕ"/>
+<org.eventb.core.guard name="_0I2T5EoIEeO2IOyripq7pQ" org.eventb.core.label="guard2" org.eventb.core.predicate="X ∈ ℤ ∧ Y ∈ ℤ"/>
+<org.eventb.core.guard name="_0I2T5UoIEeO2IOyripq7pQ" org.eventb.core.label="guard3" org.eventb.core.predicate="W ∈ ℕ ∧ H ∈ ℕ"/>
+<org.eventb.core.action name="_teoHkkbnEeOOI8hMiBvpag" org.eventb.core.assignment="obstacles ≔ obstacles ∪ {Obs}" org.eventb.core.label="act1"/>
+<org.eventb.core.action name="_P0BN8EbpEeOOI8hMiBvpag" org.eventb.core.assignment="objects ≔ objects ∪ {Obs}" org.eventb.core.label="act2"/>
+<org.eventb.core.action name="_0I268EoIEeO2IOyripq7pQ" org.eventb.core.assignment="posX ≔ posX ∪ {Obs↦X}" org.eventb.core.label="act3"/>
+<org.eventb.core.action name="_0I268UoIEeO2IOyripq7pQ" org.eventb.core.assignment="posY ≔ posY ∪ {Obs↦Y}" org.eventb.core.label="act4"/>
+<org.eventb.core.action name="_0I268koIEeO2IOyripq7pQ" org.eventb.core.assignment="width ≔ width ∪ {Obs↦W}" org.eventb.core.label="act5"/>
+<org.eventb.core.action name="_0I2680oIEeO2IOyripq7pQ" org.eventb.core.assignment="height ≔ height ∪ {Obs↦H}" org.eventb.core.label="act6"/>
+<org.eventb.core.action name="_rgzHEEpXEeO2IOyripq7pQ" org.eventb.core.assignment="obj_desc ≔ obj_desc ∪ {Obs↦Desc}" org.eventb.core.label="act7"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_teoHk0bnEeOOI8hMiBvpag" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="DELETE_OBSTACLE">
+<org.eventb.core.parameter name="_teoHlEbnEeOOI8hMiBvpag" org.eventb.core.identifier="Obs"/>
+<org.eventb.core.guard name="_cYJG0EifEeO2IOyripq7pQ" org.eventb.core.label="guard1" org.eventb.core.predicate="Obs ∈ obstacles"/>
+<org.eventb.core.action name="_teouoEbnEeOOI8hMiBvpag" org.eventb.core.assignment="obstacles ≔ obstacles ∖ {Obs}" org.eventb.core.label="act1"/>
+<org.eventb.core.action name="_P0BN8UbpEeOOI8hMiBvpag" org.eventb.core.assignment="objects ≔ objects ∖ {Obs}" org.eventb.core.label="act2"/>
+<org.eventb.core.action name="_0I269EoIEeO2IOyripq7pQ" org.eventb.core.assignment="posX ≔ {Obs} ⩤ posX" org.eventb.core.label="act3"/>
+<org.eventb.core.action name="_0I3iAEoIEeO2IOyripq7pQ" org.eventb.core.assignment="posY ≔ {Obs} ⩤ posY" org.eventb.core.label="act4"/>
+<org.eventb.core.action name="_0I3iAUoIEeO2IOyripq7pQ" org.eventb.core.assignment="width ≔ {Obs} ⩤ width" org.eventb.core.label="act5"/>
+<org.eventb.core.action name="_0I3iAkoIEeO2IOyripq7pQ" org.eventb.core.assignment="height ≔ {Obs} ⩤ height" org.eventb.core.label="act6"/>
+<org.eventb.core.action name="_rgzuIEpXEeO2IOyripq7pQ" org.eventb.core.assignment="obj_desc ≔ {Obs} ⩤   obj_desc" org.eventb.core.label="act7"/>
+</org.eventb.core.event>
+<org.eventb.core.variable name="_GC1ZEEicEeO2IOyripq7pQ" org.eventb.core.identifier="lanes"/>
+<org.eventb.core.variable name="_GC1ZEUicEeO2IOyripq7pQ" org.eventb.core.identifier="finish_line"/>
+<org.eventb.core.variable name="_GC1ZEkicEeO2IOyripq7pQ" org.eventb.core.identifier="left_border"/>
+<org.eventb.core.variable name="_GC1ZE0icEeO2IOyripq7pQ" org.eventb.core.identifier="right_border"/>
+<org.eventb.core.invariant name="_GC1ZFkicEeO2IOyripq7pQ" org.eventb.core.comment="number of lanes of the racing circuit" org.eventb.core.label="inv5" org.eventb.core.predicate="lanes ⊆ LANES"/>
+<org.eventb.core.invariant name="_GC2AIEicEeO2IOyripq7pQ" org.eventb.core.comment="y's coordinate of the finish line of a lane" org.eventb.core.label="inv6" org.eventb.core.predicate="finish_line ∈ lanes → ℤ"/>
+<org.eventb.core.invariant name="_GC2AIUicEeO2IOyripq7pQ" org.eventb.core.comment="x's coordinate of a lane" org.eventb.core.label="inv7" org.eventb.core.predicate="left_border ∈ lanes → ℤ"/>
+<org.eventb.core.invariant name="_GC2AIkicEeO2IOyripq7pQ" org.eventb.core.comment="y's coordinate of a lane" org.eventb.core.label="inv8" org.eventb.core.predicate="right_border ∈ lanes → ℤ"/>
+<org.eventb.core.event name="_0I6lU0oIEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="SET_POS">
+<org.eventb.core.parameter name="_0I6lVEoIEeO2IOyripq7pQ" org.eventb.core.identifier="Obj"/>
+<org.eventb.core.parameter name="_0I7MYEoIEeO2IOyripq7pQ" org.eventb.core.identifier="X"/>
+<org.eventb.core.parameter name="_0I7MYUoIEeO2IOyripq7pQ" org.eventb.core.identifier="Y"/>
+<org.eventb.core.guard name="_0I7MYkoIEeO2IOyripq7pQ" org.eventb.core.label="guard1" org.eventb.core.predicate="Obj ∈ objects"/>
+<org.eventb.core.guard name="_0I7MY0oIEeO2IOyripq7pQ" org.eventb.core.label="guard2" org.eventb.core.predicate="X ∈ ℤ ∧ Y ∈ ℤ"/>
+<org.eventb.core.action name="_0I7MZEoIEeO2IOyripq7pQ" org.eventb.core.assignment="posX(Obj) ≔ X" org.eventb.core.label="act1"/>
+<org.eventb.core.action name="_0I7MZUoIEeO2IOyripq7pQ" org.eventb.core.assignment="posY(Obj) ≔ Y" org.eventb.core.label="act2"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_cYJt4EifEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="ADD_LANE">
+<org.eventb.core.parameter name="_cYJt4UifEeO2IOyripq7pQ" org.eventb.core.identifier="Lane"/>
+<org.eventb.core.parameter name="_ZCHFgXl7EeOEpJQRb1qqLw" org.eventb.core.identifier="Left"/>
+<org.eventb.core.parameter name="_ZCHFgnl7EeOEpJQRb1qqLw" org.eventb.core.identifier="Right"/>
+<org.eventb.core.parameter name="_ZCHskHl7EeOEpJQRb1qqLw" org.eventb.core.identifier="Finish"/>
+<org.eventb.core.guard name="_cYJt4kifEeO2IOyripq7pQ" org.eventb.core.label="guard1" org.eventb.core.predicate="Lane ∈ LANES∖lanes"/>
+<org.eventb.core.guard name="_ZCHskXl7EeOEpJQRb1qqLw" org.eventb.core.label="guard2" org.eventb.core.predicate="Left ∈ ℤ ∧ Right ∈ ℤ ∧ Left &lt; Right"/>
+<org.eventb.core.guard name="_ZCHsknl7EeOEpJQRb1qqLw" org.eventb.core.label="guard3" org.eventb.core.predicate="Finish ∈ ℤ"/>
+<org.eventb.core.action name="_cYJt40ifEeO2IOyripq7pQ" org.eventb.core.assignment="lanes ≔ lanes ∪ {Lane}" org.eventb.core.label="act1"/>
+<org.eventb.core.action name="_2o62gEigEeO2IOyripq7pQ" org.eventb.core.assignment="finish_line ≔ finish_line ∪ {Lane ↦ Finish}" org.eventb.core.label="act2"/>
+<org.eventb.core.action name="_2o62gUigEeO2IOyripq7pQ" org.eventb.core.assignment="left_border ≔ left_border ∪ {Lane ↦ Left}" org.eventb.core.label="act3"/>
+<org.eventb.core.action name="_2o62gkigEeO2IOyripq7pQ" org.eventb.core.assignment="right_border ≔ right_border ∪ {Lane ↦ Right}" org.eventb.core.label="act4"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_cYJt5EifEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="DELETE_LANE">
+<org.eventb.core.parameter name="_cYKU8EifEeO2IOyripq7pQ" org.eventb.core.identifier="Lane"/>
+<org.eventb.core.guard name="_cYKU8UifEeO2IOyripq7pQ" org.eventb.core.label="guard1" org.eventb.core.predicate="Lane ∈ LANES∖lanes"/>
+<org.eventb.core.action name="_cYKU8kifEeO2IOyripq7pQ" org.eventb.core.assignment="lanes ≔ lanes ∖ {Lane}" org.eventb.core.label="act1"/>
+<org.eventb.core.action name="_2o62g0igEeO2IOyripq7pQ" org.eventb.core.assignment="finish_line ≔ {Lane} ⩤ finish_line" org.eventb.core.label="act2"/>
+<org.eventb.core.action name="_2o7dkEigEeO2IOyripq7pQ" org.eventb.core.assignment="left_border ≔ {Lane} ⩤ left_border" org.eventb.core.label="act3"/>
+<org.eventb.core.action name="_2o7dkUigEeO2IOyripq7pQ" org.eventb.core.assignment="right_border ≔ {Lane} ⩤ right_border" org.eventb.core.label="act4"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_cYKU80ifEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="SET_FINISH_LINE">
+<org.eventb.core.parameter name="_cYKU9EifEeO2IOyripq7pQ" org.eventb.core.identifier="Lane"/>
+<org.eventb.core.parameter name="_cYKU9UifEeO2IOyripq7pQ" org.eventb.core.identifier="F"/>
+<org.eventb.core.guard name="_cYKU9kifEeO2IOyripq7pQ" org.eventb.core.label="guard1" org.eventb.core.predicate="Lane ∈ lanes"/>
+<org.eventb.core.guard name="_cYKU90ifEeO2IOyripq7pQ" org.eventb.core.label="guard2" org.eventb.core.predicate="F ∈ ℤ"/>
+<org.eventb.core.action name="_cYK8AEifEeO2IOyripq7pQ" org.eventb.core.assignment="finish_line(Lane) ≔ F" org.eventb.core.label="act1"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_cYK8BUifEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="SET_LEFT_BORDER">
+<org.eventb.core.parameter name="_cYK8BkifEeO2IOyripq7pQ" org.eventb.core.identifier="Lane"/>
+<org.eventb.core.parameter name="_cYK8B0ifEeO2IOyripq7pQ" org.eventb.core.identifier="B"/>
+<org.eventb.core.guard name="_cYK8CEifEeO2IOyripq7pQ" org.eventb.core.label="guard1" org.eventb.core.predicate="Lane ∈ lanes"/>
+<org.eventb.core.guard name="_cYLjEEifEeO2IOyripq7pQ" org.eventb.core.label="guard2" org.eventb.core.predicate="B ∈ ℤ"/>
+<org.eventb.core.action name="_cYLjEUifEeO2IOyripq7pQ" org.eventb.core.assignment="left_border(Lane) ≔ B" org.eventb.core.label="act1"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_cYLjFkifEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="SET_RIGHT_BORDER">
+<org.eventb.core.parameter name="_cYLjF0ifEeO2IOyripq7pQ" org.eventb.core.identifier="Lane"/>
+<org.eventb.core.parameter name="_cYLjGEifEeO2IOyripq7pQ" org.eventb.core.identifier="B"/>
+<org.eventb.core.guard name="_cYMKIEifEeO2IOyripq7pQ" org.eventb.core.label="guard1" org.eventb.core.predicate="Lane ∈ lanes"/>
+<org.eventb.core.guard name="_cYMKIUifEeO2IOyripq7pQ" org.eventb.core.label="guard2" org.eventb.core.predicate="B ∈ ℤ"/>
+<org.eventb.core.action name="_cYMKIkifEeO2IOyripq7pQ" org.eventb.core.assignment="right_border(Lane) ≔ B" org.eventb.core.label="act1"/>
+</org.eventb.core.event>
+<org.eventb.core.variable name="_0I5-QEoIEeO2IOyripq7pQ" org.eventb.core.identifier="posX"/>
+<org.eventb.core.variable name="_0I5-QUoIEeO2IOyripq7pQ" org.eventb.core.identifier="posY"/>
+<org.eventb.core.variable name="_0I5-QkoIEeO2IOyripq7pQ" org.eventb.core.identifier="width"/>
+<org.eventb.core.variable name="_0I5-Q0oIEeO2IOyripq7pQ" org.eventb.core.identifier="height"/>
+<org.eventb.core.invariant name="_0I5-REoIEeO2IOyripq7pQ" org.eventb.core.comment="x-position of an object" org.eventb.core.label="inv9" org.eventb.core.predicate="posX ∈ objects → ℤ"/>
+<org.eventb.core.invariant name="_0I6lUEoIEeO2IOyripq7pQ" org.eventb.core.comment="y-position of an object" org.eventb.core.label="inv10" org.eventb.core.predicate="posY ∈ objects → ℤ"/>
+<org.eventb.core.invariant name="_0I6lUUoIEeO2IOyripq7pQ" org.eventb.core.comment="width of an object" org.eventb.core.label="inv11" org.eventb.core.predicate="width ∈ objects → ℕ"/>
+<org.eventb.core.invariant name="_0I6lUkoIEeO2IOyripq7pQ" org.eventb.core.comment="height of an object" org.eventb.core.label="inv12" org.eventb.core.predicate="height ∈ objects → ℕ"/>
+<org.eventb.core.event name="_oKau0EoPEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="CAR_RESET">
+<org.eventb.core.parameter name="_oKau0UoPEeO2IOyripq7pQ" org.eventb.core.identifier="Car"/>
+<org.eventb.core.parameter name="_oKau0koPEeO2IOyripq7pQ" org.eventb.core.identifier="Lane"/>
+<org.eventb.core.guard name="_oKau00oPEeO2IOyripq7pQ" org.eventb.core.label="guard1" org.eventb.core.predicate="Car ∈ cars"/>
+<org.eventb.core.guard name="_oKau1EoPEeO2IOyripq7pQ" org.eventb.core.label="guard2" org.eventb.core.predicate="Lane ∈ lanes"/>
+<org.eventb.core.action name="_oKau1UoPEeO2IOyripq7pQ" org.eventb.core.assignment="posX(Car) ≔ (right_border(Lane) − left_border(Lane)) ÷ 2" org.eventb.core.label="act1"/>
+</org.eventb.core.event>
+<org.eventb.core.event name="_M42_UEpVEeO2IOyripq7pQ" org.eventb.core.convergence="0" org.eventb.core.extended="false" org.eventb.core.label="UPDATE_POS">
+<org.eventb.core.action name="_M43mYEpVEeO2IOyripq7pQ" org.eventb.core.assignment="posX :∈ objects → ℤ" org.eventb.core.label="act1"/>
+<org.eventb.core.action name="_M43mYUpVEeO2IOyripq7pQ" org.eventb.core.assignment="posY :∈ objects → ℤ" org.eventb.core.label="act2"/>
+</org.eventb.core.event>
+<org.eventb.core.variable name="_rg3YgEpXEeO2IOyripq7pQ" org.eventb.core.identifier="obj_desc"/>
+<org.eventb.core.invariant name="_rg3YgUpXEeO2IOyripq7pQ" org.eventb.core.comment="object description" org.eventb.core.label="inv13" org.eventb.core.predicate="obj_desc ∈ objects → ℕ"/>
+</org.eventb.core.machineFile>
